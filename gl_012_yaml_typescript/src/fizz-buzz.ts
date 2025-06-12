@@ -25,6 +25,7 @@ export function main(): void {
   }
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+// Run when executed directly (ES module check)
+if (process.argv[1] && process.argv[1].endsWith('fizz-buzz.ts')) {
   main();
 }

@@ -2,7 +2,7 @@
  * Tests for fizz-buzz module.
  */
 
-import { fizzBuzz } from '../src/fizz-buzz.js';
+import { fizzBuzz } from '../src/fizz-buzz';
 
 describe('fizz-buzz', () => {
   it('should return number for non-multiples', () => {

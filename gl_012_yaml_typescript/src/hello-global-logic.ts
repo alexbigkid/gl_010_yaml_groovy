@@ -9,6 +9,7 @@ export function hello(): void {
   console.log('Hello Global Logic!');
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+// Run when executed directly (ES module check)
+if (process.argv[1] && process.argv[1].endsWith('hello-global-logic.ts')) {
   hello();
 }

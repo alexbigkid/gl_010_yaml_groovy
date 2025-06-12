@@ -44,7 +44,7 @@ function processMetadataItem(metadata: MetadataItem): Promise<string> {
  * Handle processing errors by logging and returning empty observable.
  */
 function handleProcessingError(error: Error, metadata: MetadataItem): Observable<string> {
-  console.log(`[Error Handler] ${error.message} for ${JSON.stringify(metadata)}`);
+  console.log(`💣 [Error Handler] ${error.message} for ${JSON.stringify(metadata)}`);
   return EMPTY;
 }
 
@@ -66,7 +66,7 @@ function onCompleted(): void {
  * Callback for when an unhandled error occurs in the stream.
  */
 function onError(error: Error): void {
-  console.log(`❌ Stream failed: ${error.message}`);
+  console.log(`💣 ❌ Stream failed: ${error.message}`);
 }
 
 /**
@@ -76,7 +76,10 @@ export function main(): Promise<void> {
   return new Promise((resolve) => {
     let completed = 0;
     const total = metadataList.length;
-    let timeoutId: NodeJS.Timeout;
+    const timeoutId: NodeJS.Timeout = setTimeout(() => {
+      console.log('💣 ❌ Timed out waiting for all processing to complete.');
+      resolve();
+    }, 30000);
 
     const logProgressWithCount = (result: string): void => {
       completed++;
@@ -96,11 +99,6 @@ export function main(): Promise<void> {
       resolve();
     };
 
-    // Set timeout for 30 seconds
-    timeoutId = setTimeout(() => {
-      console.log('❌ Timed out waiting for all processing to complete.');
-      resolve();
-    }, 30000);
 
     // Reactive pipeline using RxJS
     from(metadataList)
@@ -114,7 +112,7 @@ export function main(): Promise<void> {
           )
         ),
         catchError((error) => {
-          console.log(`❌ Unexpected error in pipeline: ${error.message}`);
+          console.log(`💣 ❌ Unexpected error in pipeline: ${error.message}`);
           return EMPTY;
         })
       )
@@ -127,6 +125,7 @@ export function main(): Promise<void> {
 
 export { processMetadataItem, handleProcessingError, logProgress, onCompleted, onError, metadataList };
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+// Run when executed directly (ES module check)
+if (process.argv[1] && process.argv[1].endsWith('meta-data.ts')) {
   main().catch(console.error);
 }
