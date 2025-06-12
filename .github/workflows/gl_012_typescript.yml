@@ -12,18 +12,18 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-      
+
       - name: Install dependencies
         run: cd gl_012_yaml_typescript && npm install
-      
+
       - name: Run ESLint
         run: cd gl_012_yaml_typescript && npm run lint
-      
+
       - name: Run Prettier check
         run: cd gl_012_yaml_typescript && npm run format -- --check
 
@@ -42,8 +42,7 @@ jobs:
 
       - name: Check runner
         if: ${{ !contains(matrix.os, 'windows') }}
-        run: |
-          .github/scripts/AgentInfo.sh
+        run: .github/scripts/AgentInfo.sh
 
       - name: Setup Node.js ${{ matrix.node }}
         uses: actions/setup-node@v4
