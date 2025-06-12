@@ -1,1 +1,1 @@
-# Global Logic 010 ![Tests](https://github.com/alexbigkid/gl_010_yaml_groovy/actions/workflows/gl_011_python.yml/badge.svg) [![codecov](https://codecov.io/gh/alexbigkid/gl_010_yaml_groovy/branch/main/graph/badge.svg)](https://codecov.io/gh/alexbigkid/gl_010_yaml_groovy)
+# Global Logic 010 ![Tests](https://github.com/alexbigkid/gl_010_yaml_groovy/actions/workflows/gl_011_python.yml/badge.svg) <!-- [![codecov](https://codecov.io/gh/alexbigkid/gl_010_yaml_groovy/branch/main/graph/badge.svg)](https://codecov.io/gh/alexbigkid/gl_010_yaml_groovy) -->
