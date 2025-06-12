@@ -45,10 +45,11 @@ jobs:
         run: cd gl_011_yaml_python && uv run pytest --cov --cov-report=xml
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v3
         if: matrix.os == 'ubuntu' && matrix.py == '3.13' && ${{ !cancelled() }}
         with:
-          files: ./gl_011_yaml_python/coverage.xml
+          file: ./gl_011_yaml_python/coverage.xml
           flags: pytest
           name: codecov-coverage
           verbose: true
+          fail_ci_if_error: false
