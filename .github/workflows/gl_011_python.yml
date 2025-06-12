@@ -28,7 +28,13 @@ jobs:
         py: [ "3.13"]
 
     steps:
-      - uses: actions/checkout@v4
+      - name: checkout repo
+        uses: actions/checkout@v4
+
+      - name: Check runner
+        if: ${{ !contains(matrix.os, 'windows') }}
+        run: |
+          .github/scripts/AgentInfo.sh
 
       - name: Install uv
         uses: astral-sh/setup-uv@v3
