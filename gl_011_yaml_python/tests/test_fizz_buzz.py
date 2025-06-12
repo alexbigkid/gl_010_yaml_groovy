@@ -1,4 +1,5 @@
-import pytest
+"""Tests for fizz_buzz module."""
+
 from gl_011.fizz_buzz import fizz_buzz
 
 
@@ -48,5 +49,5 @@ def test_fizz_buzz_type_hint():
     import inspect
 
     sig = inspect.signature(fizz_buzz)
-    assert sig.parameters["n"].annotation == int
-    assert sig.return_annotation == str
+    assert sig.parameters["n"].annotation is int
+    assert sig.return_annotation is str

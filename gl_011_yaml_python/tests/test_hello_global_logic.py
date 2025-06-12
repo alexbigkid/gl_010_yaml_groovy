@@ -1,4 +1,5 @@
-import pytest
+"""Tests for hello_global_logic module."""
+
 from io import StringIO
 import sys
 from gl_011.hello_global_logic import hello
