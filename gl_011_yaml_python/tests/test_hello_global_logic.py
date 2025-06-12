@@ -8,12 +8,12 @@ def test_hello_output():
     """Test that hello function prints correct message."""
     captured_output = StringIO()
     sys.stdout = captured_output
-    
+
     hello()
-    
+
     sys.stdout = sys.__stdout__
     output = captured_output.getvalue().strip()
-    
+
     assert output == "Hello Global Logic!"
 
 

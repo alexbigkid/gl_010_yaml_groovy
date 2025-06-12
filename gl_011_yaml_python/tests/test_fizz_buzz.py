@@ -46,6 +46,7 @@ def test_fizz_buzz_edge_cases():
 def test_fizz_buzz_type_hint():
     """Test fizz_buzz function signature."""
     import inspect
+
     sig = inspect.signature(fizz_buzz)
-    assert sig.parameters['n'].annotation == int
+    assert sig.parameters["n"].annotation == int
     assert sig.return_annotation == str

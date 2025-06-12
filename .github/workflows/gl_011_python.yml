@@ -7,22 +7,44 @@ on:
     branches: [ main ]
 
 jobs:
-  test:
+  ruff:
     runs-on: ubuntu-latest
-    
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Install uv
-      uses: astral-sh/setup-uv@v3
-      with:
-        version: "latest"
-    
-    - name: Set up Python
-      run: uv python install
-    
-    - name: Install dependencies
-      run: cd gl_011_yaml_python && uv sync
-    
-    - name: Run tests
-      run: cd gl_011_yaml_python && uv run pytest
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Run Ruff lint
+        uses: astral-sh/ruff-action@v3
+        with:
+          src: "./gl_011_yaml_python"
+
+  unit-tests:
+    name: Run on ${{ matrix.py }} - ${{ matrix.os }}
+    needs: ruff
+    runs-on: ${{ matrix.os }}-latest
+    strategy:
+      matrix:
+        os: [ ubuntu, macOS, windows ]
+        py: [ "3.12", "3.13"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          version: "latest"
+
+      - name: Set up Python ${{ matrix.py }}
+        run: uv python install ${{ matrix.py }}
+
+      - name: Install dependencies
+        run: cd gl_011_yaml_python && uv sync --group dev
+
+      - name: Run tests
+        run: cd gl_011_yaml_python && uv run pytest --cov=gl_011 --cov-report=xml
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        if: matrix.os == 'ubuntu' && matrix.py == '3.13'
+        with:
+          file: ./gl_011_yaml_python/coverage.xml

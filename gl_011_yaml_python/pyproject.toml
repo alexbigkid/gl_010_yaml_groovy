@@ -5,7 +5,16 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
-    "pytest>=8.4.0",
+    "reactivex>=4.0.4",
+]
+
+[dependency-groups]
+dev = [
+    "coverage",
+    "parameterized",
+    "ruff",
+    "pytest",
+    "pytest-cov"
 ]
 
 [project.scripts]
