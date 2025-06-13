@@ -9,13 +9,13 @@ This repository contains multiple implementations of the same core functionality
 ## Projects
 
 ### GL 011 - Python Implementation
-- **Location**: `gl_011_yaml_python/`
+- **Location**: `011_python/`
 - **Features**: Hello Global Logic, Fizz Buzz, Reactive Metadata Processing
 - **Framework**: Python with ReactiveX (RxPY)
 - **Testing**: pytest with coverage
 - **CI/CD**: GitHub Actions with Ruff linting
 
-### GL 012 - TypeScript Implementation  
+### GL 012 - TypeScript Implementation
 - **Location**: `gl_012_yaml_typescript/`
 - **Features**: Hello Global Logic, Fizz Buzz, Reactive Metadata Processing
 - **Framework**: TypeScript with RxJS
@@ -26,7 +26,7 @@ This repository contains multiple implementations of the same core functionality
 
 ### Python Project
 ```bash
-cd gl_011_yaml_python
+cd 011_python
 uv sync --group dev
 uv run pytest --cov
 ```

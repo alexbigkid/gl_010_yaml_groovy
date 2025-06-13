@@ -10,7 +10,7 @@ pipeline {
     }
     
     environment {
-        PROJECT_DIR = 'gl_011_yaml_python'
+        PROJECT_DIR = '011_python'
         UV_VERSION = 'latest'
     }
     

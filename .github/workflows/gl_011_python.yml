@@ -15,7 +15,7 @@ jobs:
       - name: Run Ruff lint
         uses: astral-sh/ruff-action@v3
         with:
-          src: "./gl_011_yaml_python"
+          src: "./011_python"
 
   unit-tests:
     name: Run on ${{ matrix.py }} - ${{ matrix.os }}
@@ -45,16 +45,16 @@ jobs:
         run: uv python install ${{ matrix.py }}
 
       - name: Install dependencies
-        run: cd gl_011_yaml_python && uv sync --group dev
+        run: cd 011_python && uv sync --group dev
 
       - name: Run tests
-        run: cd gl_011_yaml_python && uv run pytest --cov --cov-report=xml
+        run: cd 011_python && uv run pytest --cov --cov-report=xml
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         if: matrix.os == 'ubuntu' && matrix.py == '3.13' && ${{ !cancelled() }}
         with:
-          file: ./gl_011_yaml_python/coverage.xml
+          file: ./011_python/coverage.xml
           flags: pytest
           name: codecov-coverage
           verbose: true
