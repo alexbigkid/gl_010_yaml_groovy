@@ -104,14 +104,30 @@ Run tests with:
 npm test
 ```
 
-## Continuous Integration
+## CI/CD Options
 
-GitHub Actions workflow includes:
-- ESLint and Prettier checks
-- TypeScript compilation
-- Cross-platform testing (Ubuntu, macOS, Windows)
-- Multiple Node.js versions (20, 22)
-- Code coverage reporting with Codecov
+This project demonstrates the same pipeline implemented in two different CI/CD systems:
+
+### 1. GitHub Actions (YAML)
+- **File**: `.github/workflows/gl_012_typescript.yml`
+- **Triggers**: Push/PR to main branch
+- **Features**: Matrix testing, ESLint/Prettier, Jest with coverage
+
+### 2. Jenkins (Groovy)
+- **File**: `Jenkinsfile`
+- **Triggers**: GitHub webhooks, manual builds
+- **Features**: Same functionality as GitHub Actions but in Jenkins
+
+Both pipelines provide identical functionality:
+- ✅ ESLint and Prettier checks
+- ✅ TypeScript compilation
+- ✅ Matrix testing (Node.js 20/22, Ubuntu/macOS)
+- ✅ Jest testing with coverage
+- ✅ Codecov integration
+- ✅ Application demos
+- ✅ Package creation and artifact archival
+
+This allows you to choose your preferred CI/CD platform while maintaining the same build process.
 
 ## Dependencies
 
