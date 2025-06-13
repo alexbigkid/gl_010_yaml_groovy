@@ -1,6 +1,6 @@
 pipeline {
     agent any
-    
+
     parameters {
         choice(
             name: 'NODE_VERSION',
@@ -8,18 +8,18 @@ pipeline {
             description: 'Node.js version to use for testing'
         )
     }
-    
+
     environment {
-        PROJECT_DIR = 'gl_012_yaml_typescript'
+        PROJECT_DIR = '012_typescript'
         NODE_OPTIONS = '--max_old_space_size=4096'
     }
-    
+
     triggers {
         // Equivalent to GitHub Actions: on push/pull_request to main branch
         githubPush()
         pullRequest(events: ['OPENED', 'SYNCHRONIZE'], targetBranches: ['main'])
     }
-    
+
     stages {
         stage('Checkout') {
             steps {
@@ -27,27 +27,27 @@ pipeline {
                 checkout scm
             }
         }
-        
+
         stage('Lint') {
             // Equivalent to the 'lint' job in GitHub Actions
             steps {
                 echo "🔍 Running ESLint and Prettier checks..."
-                
+
                 script {
                     // Equivalent to actions/setup-node@v4 with node-version: '20'
                     def nodeVersion = '20'
                     setupNodeJs(nodeVersion)
                 }
-                
+
                 dir(env.PROJECT_DIR) {
                     // Equivalent to "Install dependencies": npm install
                     echo "📦 Installing dependencies..."
                     sh 'npm install'
-                    
+
                     // Equivalent to "Run ESLint": npm run lint
                     echo "🔍 Running ESLint..."
                     sh 'npm run lint'
-                    
+
                     // Equivalent to "Run Prettier check": npm run format -- --check
                     echo "💅 Running Prettier check..."
                     sh 'npm run format -- --check'
@@ -62,7 +62,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Unit Tests') {
             // Equivalent to the 'unit-tests' job with matrix strategy
             matrix {
@@ -80,7 +80,7 @@ pipeline {
                     stage('Test Matrix Execution') {
                         steps {
                             echo "🧪 Running on ${OS_MATRIX} with Node.js ${NODE_VERSION_MATRIX}..."
-                            
+
                             script {
                                 // Equivalent to "Check runner" step (skip on Windows)
                                 if (OS_MATRIX != 'windows') {
@@ -101,20 +101,20 @@ pipeline {
                                         '''
                                     }
                                 }
-                                
+
                                 // Equivalent to actions/setup-node@v4
                                 setupNodeJs(NODE_VERSION_MATRIX)
                             }
-                            
+
                             dir(env.PROJECT_DIR) {
                                 // Equivalent to "Install dependencies": npm install
                                 echo "📦 Installing dependencies..."
                                 sh 'npm install'
-                                
+
                                 // Equivalent to "Build TypeScript": npm run build
                                 echo "🔨 Building TypeScript..."
                                 sh 'npm run build'
-                                
+
                                 // Equivalent to "Run tests": npm run test:coverage
                                 echo "🧪 Running tests with coverage..."
                                 sh 'npm run test:coverage'
@@ -134,10 +134,10 @@ pipeline {
                                         reportName: "Coverage Report (${OS_MATRIX}-Node${NODE_VERSION_MATRIX})",
                                         reportTitles: ''
                                     ])
-                                    
+
                                     // Archive coverage files for Codecov
                                     archiveArtifacts artifacts: 'coverage/lcov.info', allowEmptyArchive: true
-                                    
+
                                     // Archive build artifacts
                                     archiveArtifacts artifacts: 'dist/**/*', allowEmptyArchive: true
                                 }
@@ -153,7 +153,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Upload Coverage to Codecov') {
             // Equivalent to "Upload coverage to Codecov" step
             when {
@@ -175,7 +175,7 @@ pipeline {
                                     if ! command -v codecov &> /dev/null; then
                                         npm install -g codecov
                                     fi
-                                    
+
                                     # Upload coverage with same flags as GitHub Actions
                                     codecov \\
                                         --file coverage/lcov.info \\
@@ -201,14 +201,14 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Package & Archive') {
             steps {
                 echo "📦 Creating package and archiving artifacts..."
                 dir(env.PROJECT_DIR) {
                     // Create npm package
                     sh 'npm pack'
-                    
+
                     // Archive the package
                     archiveArtifacts artifacts: '*.tgz', allowEmptyArchive: true
                 }
@@ -222,7 +222,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Demo Applications') {
             steps {
                 echo "🎮 Testing application scripts..."
@@ -231,10 +231,10 @@ pipeline {
                         // Test each application script
                         echo "▶️  Testing hello app..."
                         sh 'timeout 10s npm run hello || echo "Hello app completed"'
-                        
+
                         echo "▶️  Testing fizz-buzz app (first 10 lines)..."
                         sh 'timeout 10s npm run fizz-buzz | head -10 || echo "FizzBuzz app working"'
-                        
+
                         echo "▶️  Testing meta-data app..."
                         sh 'timeout 30s npm run meta-data || echo "Meta-data app completed"'
                     }
@@ -247,7 +247,7 @@ pipeline {
             }
         }
     }
-    
+
     post {
         always {
             echo "🧹 Cleaning up workspace..."
@@ -288,7 +288,7 @@ pipeline {
 // Helper function to setup Node.js
 def setupNodeJs(String version) {
     echo "🟢 Setting up Node.js ${version}..."
-    
+
     // Use NodeJS plugin if available, otherwise use nvm
     try {
         nodejs(nodeJSInstallationName: "Node-${version}") {
@@ -304,14 +304,14 @@ def setupNodeJs(String version) {
             if [ ! -d "\$HOME/.nvm" ]; then
                 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
             fi
-            
+
             # Load nvm and install/use Node.js version
             export NVM_DIR="\$HOME/.nvm"
             [ -s "\$NVM_DIR/nvm.sh" ] && . "\$NVM_DIR/nvm.sh"
-            
+
             nvm install ${version}
             nvm use ${version}
-            
+
             echo "Node.js version: \$(node --version)"
             echo "npm version: \$(npm --version)"
         """

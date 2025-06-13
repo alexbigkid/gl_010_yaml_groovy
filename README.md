@@ -16,7 +16,7 @@ This repository contains multiple implementations of the same core functionality
 - **CI/CD**: GitHub Actions with Ruff linting
 
 ### GL 012 - TypeScript Implementation
-- **Location**: `gl_012_yaml_typescript/`
+- **Location**: `012_typescript/`
 - **Features**: Hello Global Logic, Fizz Buzz, Reactive Metadata Processing
 - **Framework**: TypeScript with RxJS
 - **Testing**: Jest with coverage
@@ -33,7 +33,7 @@ uv run pytest --cov
 
 ### TypeScript Project
 ```bash
-cd gl_012_yaml_typescript
+cd 012_typescript
 npm install
 npm test
 npm run hello        # Run Hello Global Logic

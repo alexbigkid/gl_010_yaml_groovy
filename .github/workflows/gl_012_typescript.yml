@@ -19,13 +19,13 @@ jobs:
           node-version: '20'
 
       - name: Install dependencies
-        run: cd gl_012_yaml_typescript && npm install
+        run: cd 012_typescript && npm install
 
       - name: Run ESLint
-        run: cd gl_012_yaml_typescript && npm run lint
+        run: cd 012_typescript && npm run lint
 
       - name: Run Prettier check
-        run: cd gl_012_yaml_typescript && npm run format -- --check
+        run: cd 012_typescript && npm run format -- --check
 
   unit-tests:
     name: Run on ${{ matrix.node }} - ${{ matrix.os }}
@@ -50,19 +50,19 @@ jobs:
           node-version: ${{ matrix.node }}
 
       - name: Install dependencies
-        run: cd gl_012_yaml_typescript && npm install
+        run: cd 012_typescript && npm install
 
       - name: Build TypeScript
-        run: cd gl_012_yaml_typescript && npm run build
+        run: cd 012_typescript && npm run build
 
       - name: Run tests
-        run: cd gl_012_yaml_typescript && npm run test:coverage
+        run: cd 012_typescript && npm run test:coverage
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         if: matrix.os == 'ubuntu' && matrix.node == '20' && ${{ !cancelled() }}
         with:
-          file: ./gl_012_yaml_typescript/coverage/lcov.info
+          file: ./012_typescript/coverage/lcov.info
           flags: jest-typescript
           name: codecov-coverage
           verbose: true

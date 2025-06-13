@@ -9,7 +9,7 @@ TypeScript implementation of the GL 011 Python project, featuring:
 ## Project Structure
 
 ```
-gl_012_yaml_typescript/
+012_typescript/
 ├── src/
 │   ├── hello-global-logic.ts    # Hello Global Logic functionality
 │   ├── fizz-buzz.ts             # Fizz Buzz implementation
